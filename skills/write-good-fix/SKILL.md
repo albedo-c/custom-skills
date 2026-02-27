@@ -1,10 +1,12 @@
 ---
 name: write-good-fix
-description: Run write-good to detect weak English prose in comments, docstrings, and documentation, then apply fixes directly using file editing tools
+description: Run write-good to detect weak English prose in comments, docstrings, and documentation, then apply fixes directly using file editing tools. Use when user asks to "fix grammar", "improve writing", "check prose", "fix passive voice", or "run write-good".
+version: 1.0.0
 license: MIT
+compatibility: opencode, claude
 metadata:
   tool: write-good
-  version: ">=1.0"
+  tool_version: ">=1.0"
   workflow: inline-edit
 ---
 

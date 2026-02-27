@@ -1,7 +1,9 @@
 ---
 name: copyright-update
-description: Scan the entire codebase for copyright year notices and update stale years to the current year, preserving the original start year in ranges
+description: Scan the entire codebase for copyright year notices and update stale years to the current year, preserving the original start year in ranges. Use when user asks to "update copyright", "fix copyright years", "update license year", or "change copyright to 2026".
+version: 1.0.0
 license: MIT
+compatibility: opencode, claude
 metadata:
   workflow: git-branch-and-commit
   current-year: "2026"

@@ -1,7 +1,9 @@
 ---
 name: python-modernize
-description: Modernize a Python project by migrating to uv, pyproject.toml (PEP 621), and ruff for linting and formatting — replacing legacy setup.py, requirements.txt, black, flake8, and isort
+description: Modernize a Python project by migrating to uv, pyproject.toml (PEP 621), and ruff for linting and formatting — replacing legacy setup.py, requirements.txt, black, flake8, and isort. Use when user asks to "modernize Python", "migrate to uv", "set up ruff", "replace black", or "PEP 621".
+version: 1.0.0
 license: MIT
+compatibility: opencode, claude
 metadata:
   tools: "uv, ruff"
   workflow: migration

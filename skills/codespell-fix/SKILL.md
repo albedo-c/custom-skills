@@ -1,10 +1,12 @@
 ---
 name: codespell-fix
-description: Run codespell to detect and fix common spelling mistakes across the entire codebase, then commit the changes on a new branch from master
+description: Run codespell to detect and fix common spelling mistakes across the entire codebase, then commit the changes on a new branch from master. Use when user asks to "fix spelling", "check for typos", "spell check codebase", or "run codespell".
+version: 1.0.0
 license: MIT
+compatibility: opencode, claude
 metadata:
   tool: codespell
-  version: ">=2.0"
+  tool_version: ">=2.0"
   workflow: git-branch-and-commit
 ---
 
