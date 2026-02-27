@@ -2,7 +2,6 @@
 name: write-good-fix
 description: Run write-good to detect weak English prose in comments, docstrings, and documentation, then apply fixes directly using file editing tools
 license: MIT
-compatibility: opencode
 metadata:
   tool: write-good
   version: ">=1.0"
@@ -19,6 +18,7 @@ metadata:
 ## When to use me
 
 Use this skill when you want to improve the quality of written English in:
+
 - Markdown and RST documentation (`.md`, `.rst`, `.txt`)
 - Python docstrings and `#` comments
 - JavaScript/TypeScript JSDoc comments and `//` or `/* */` comments
@@ -39,6 +39,7 @@ write-good --version
 ```
 
 If not installed:
+
 ```bash
 npm install -g write-good
 # or to user prefix (no sudo):
@@ -69,11 +70,13 @@ find . -type f \( -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.jsx" 
 ```
 
 Or process files one at a time for focused output:
+
 ```bash
 ~/.local/bin/write-good --parse README.md
 ```
 
 The output format is:
+
 ```
 "<offending phrase>" on line X at column Y
 -------------
@@ -82,37 +85,42 @@ The output format is:
 
 ### 4. Understand what write-good checks
 
-| Check | What it flags | Example fix |
-|---|---|---|
-| **Passive voice** | "was stolen", "is being used" | "stole", "uses" |
-| **Weasel words** | "very", "quite", "rather", "mostly" | Remove or be specific |
-| **Adverbs** | "-ly" words that weaken verbs | Remove or use stronger verb |
-| **"So" at start** | Sentences beginning with "So" | Rephrase or remove "So" |
-| **There is/are** | "There is a problem" | "A problem exists" or restructure |
-| **Lexical illusions** | Repeated words "the the" | Remove duplicate |
-| **Clichés** | "at the end of the day" | Rephrase directly |
+| Check                 | What it flags                       | Example fix                       |
+| --------------------- | ----------------------------------- | --------------------------------- |
+| **Passive voice**     | "was stolen", "is being used"       | "stole", "uses"                   |
+| **Weasel words**      | "very", "quite", "rather", "mostly" | Remove or be specific             |
+| **Adverbs**           | "-ly" words that weaken verbs       | Remove or use stronger verb       |
+| **"So" at start**     | Sentences beginning with "So"       | Rephrase or remove "So"           |
+| **There is/are**      | "There is a problem"                | "A problem exists" or restructure |
+| **Lexical illusions** | Repeated words "the the"            | Remove duplicate                  |
+| **Clichés**           | "at the end of the day"             | Rephrase directly                 |
 
 ### 5. Apply fixes — rules for editing
 
 When fixing prose, follow these principles:
 
 **For passive voice:**
+
 - Change `"The file is read by the parser"` → `"The parser reads the file"`
 - Only fix when the active subject is clear and makes the sentence cleaner
 
 **For weasel words:**
+
 - Remove vague qualifiers: `"This is very important"` → `"This is important"` or be specific: `"This prevents data corruption"`
 - Replace `"basically"`, `"essentially"`, `"generally"` with precise language
 
 **For adverbs:**
+
 - `"This function quickly processes"` → `"This function processes"` or use a stronger verb: `"This function streams"`
 
 **For documentation specifically:**
+
 - Keep technical accuracy — do not change what a sentence means
 - Preserve code spans, links, and formatting exactly
 - Do not alter version numbers, command examples, or file paths within prose
 
 **For source code comments:**
+
 - Fix the text inside `#`, `//`, `/* */`, `"""`, `'''` blocks
 - Do not touch code on the same line as a trailing comment if the code would be affected
 - For multiline docstrings: fix the English but preserve all parameter names, types, and return descriptions exactly
@@ -120,6 +128,7 @@ When fixing prose, follow these principles:
 ### 6. Process files systematically
 
 For each file with suggestions:
+
 1. Read the full file content first
 2. Identify each flagged passage in context
 3. Decide: is the suggestion valid? Some flags (especially passive voice in technical docs) are intentionally passive and should be kept

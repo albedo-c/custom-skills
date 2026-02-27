@@ -2,7 +2,6 @@
 name: copyright-update
 description: Scan the entire codebase for copyright year notices and update stale years to the current year, preserving the original start year in ranges
 license: MIT
-compatibility: opencode
 metadata:
   workflow: git-branch-and-commit
   current-year: "2026"
@@ -19,6 +18,7 @@ metadata:
 ## When to use me
 
 Use this skill at the start of a new year, or when auditing a codebase that has stale copyright notices. Common situations:
+
 - Files still showing `Copyright 2023` or `Copyright 2020-2024`
 - LICENSE file has an outdated year
 - New contributor files with no copyright notice (optionally add one)
@@ -28,13 +28,13 @@ Use this skill at the start of a new year, or when auditing a codebase that has 
 
 The current year is **2026**.
 
-| Found in file | Updated to |
-|---|---|
-| `2023` (single year) | `2023-2026` |
+| Found in file                     | Updated to  |
+| --------------------------------- | ----------- |
+| `2023` (single year)              | `2023-2026` |
 | `2021-2024` (range, end is stale) | `2021-2026` |
-| `2025-2026` (already current) | no change |
-| `2026` (already current single) | no change |
-| `2025` (single, one year behind) | `2025-2026` |
+| `2025-2026` (already current)     | no change   |
+| `2026` (already current single)   | no change   |
+| `2025` (single, one year behind)  | `2025-2026` |
 
 **Rule:** preserve the original start year. Only update the end year (or add `-CURRENTYEAR` to a single stale year). Never change a year that is already current.
 
@@ -71,6 +71,7 @@ grep -rn --include="*.py" --include="*.js" --include="*.ts" \
 ```
 
 Also check the `LICENSE` file specifically:
+
 ```bash
 grep -n -iE "(copyright|©|\(c\))" LICENSE LICENSE.md LICENSE.txt 2>/dev/null
 ```
@@ -114,12 +115,14 @@ For each file containing a stale copyright year, read the file and apply targete
 **Pattern: single stale year → add current year as range end**
 
 Regex to match: `(Copyright\s+(?:\(c\)|©)?\s*)(\d{4})(\s)`
+
 - If captured year `$2` < 2026: replace with `$1$2-2026$3`
 - If captured year `$2` == 2026: leave unchanged
 
 **Pattern: range with stale end year → update end year only**
 
 Regex to match: `(Copyright\s+(?:\(c\)|©)?\s*\d{4}-)(\d{4})`
+
 - If captured end year `$2` < 2026: replace with `$12026`
 - If captured end year `$2` == 2026: leave unchanged
 
@@ -140,6 +143,7 @@ done
 ### 6. Handle `LICENSE` file
 
 The LICENSE file often has a standalone year line like:
+
 ```
 MIT License
 
@@ -147,18 +151,21 @@ Copyright (c) 2021 Author Name
 ```
 
 Read the LICENSE file, find the copyright line, and update:
+
 - `Copyright (c) 2021` → `Copyright (c) 2021-2026`
 - `Copyright (c) 2021-2024` → `Copyright (c) 2021-2026`
 
 ### 7. Handle file headers with SPDX or structured copyright
 
 Some projects use SPDX headers:
+
 ```
 # SPDX-FileCopyrightText: 2023 Author Name
 # SPDX-License-Identifier: MIT
 ```
 
 Update the year in `SPDX-FileCopyrightText` lines using the same rules:
+
 - `2023` → `2023-2026`
 - `2021-2024` → `2021-2026`
 
@@ -169,14 +176,17 @@ git diff
 ```
 
 Verify:
+
 - No version numbers were accidentally changed (e.g. `v2023.1` should NOT become `v2023-2026.1`)
 - No data/timestamps in code were changed
 - Only copyright year fields were updated
 
 If any incorrect changes were made, revert those specific files:
+
 ```bash
 git checkout -- path/to/file
 ```
+
 Then manually edit only the copyright line.
 
 ### 9. Commit the changes

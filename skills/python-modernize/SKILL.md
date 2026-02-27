@@ -2,7 +2,6 @@
 name: python-modernize
 description: Modernize a Python project by migrating to uv, pyproject.toml (PEP 621), and ruff for linting and formatting — replacing legacy setup.py, requirements.txt, black, flake8, and isort
 license: MIT
-compatibility: opencode
 metadata:
   tools: "uv, ruff"
   workflow: migration
@@ -22,6 +21,7 @@ metadata:
 ## When to use me
 
 Use this skill when the project has any of:
+
 - `setup.py` or `setup.cfg` (legacy packaging)
 - `requirements.txt` without a `pyproject.toml`
 - `Pipfile` / `Pipfile.lock` (pipenv)
@@ -39,6 +39,7 @@ ls -la setup.py setup.cfg requirements*.txt Pipfile pyproject.toml .flake8 .blac
 ```
 
 Read each file to understand:
+
 - Project name, version, description, author, license
 - All dependencies (runtime and dev/test)
 - Any existing linter/formatter configuration
@@ -51,6 +52,7 @@ uv --version
 ```
 
 If not installed:
+
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 # then reload shell: source ~/.bashrc or source ~/.zshrc
@@ -91,6 +93,7 @@ Repository = "https://github.com/org/repo"
 ```
 
 If `pyproject.toml` exists but uses `[tool.poetry]`, migrate the `[tool.poetry.dependencies]` section to `[project.dependencies]` format:
+
 - Poetry format: `requests = "^2.28"` → PEP 621: `"requests>=2.28"`
 - Poetry dev deps → `[project.optional-dependencies]` dev group
 
@@ -169,6 +172,7 @@ ruff format .
 ```
 
 Review any remaining lint errors that could not be auto-fixed:
+
 ```bash
 ruff check .
 ```
