@@ -19,7 +19,7 @@ metadata:
 
 Use this skill when you want to improve the quality of written English in:
 
-- Markdown and RST documentation (`.md`, `.rst`, `.txt`)
+- Markdown and RST documentation (`.md`, `.mdx`, `.rst`, `.txt`)
 - Python docstrings and `#` comments
 - JavaScript/TypeScript JSDoc comments and `//` or `/* */` comments
 - YAML/TOML configuration file comments
@@ -135,15 +135,34 @@ For each file with suggestions:
 4. Apply the edit using the file editing tool
 5. Re-run write-good on the file to confirm the suggestion is resolved
 
-### 7. Commit the changes
+### 7. Review the diff
+
+Before committing, always review all changes:
+
+```bash
+git diff
+```
+
+For each changed file, verify:
+
+- The fix improves clarity without changing the meaning
+- Technical terms, API names, version numbers are preserved
+- Links and code examples are intact
+- The change is not overly aggressive (e.g., don't change every passive voice if it makes sentences harder to understand)
+
+If any change looks wrong:
+- Revert that specific file: `git checkout -- path/to/file`
+- Re-evaluate whether the fix should be applied
+
+### 8. Commit the changes
 
 ```bash
 git add -A
 git commit -m "docs: improve prose clarity based on write-good suggestions
 
+Reviewed each suggestion and applied fixes manually.
 Addressed passive voice, weasel words, and weak phrasing in comments
-and documentation. No functional changes to code logic."
-```
+and documentation. No functional changes to code logic."```
 
 ## Rules and guardrails
 

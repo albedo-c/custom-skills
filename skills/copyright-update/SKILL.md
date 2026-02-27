@@ -30,13 +30,11 @@ The current year is **2026**.
 
 | Found in file                     | Updated to  |
 | --------------------------------- | ----------- |
-| `2023` (single year)              | `2023-2026` |
+| `2023` (single year)              | `2026`      |
 | `2021-2024` (range, end is stale) | `2021-2026` |
 | `2025-2026` (already current)     | no change   |
 | `2026` (already current single)   | no change   |
-| `2025` (single, one year behind)  | `2025-2026` |
-
-**Rule:** preserve the original start year. Only update the end year (or add `-CURRENTYEAR` to a single stale year). Never change a year that is already current.
+| `2025` (single, one year behind)  | `2026`      |
 
 ## Step-by-step workflow
 
@@ -116,7 +114,7 @@ For each file containing a stale copyright year, read the file and apply targete
 
 Regex to match: `(Copyright\s+(?:\(c\)|©)?\s*)(\d{4})(\s)`
 
-- If captured year `$2` < 2026: replace with `$1$2-2026$3`
+- If captured year `$2` < 2026: replace with 2026
 - If captured year `$2` == 2026: leave unchanged
 
 **Pattern: range with stale end year → update end year only**
@@ -152,7 +150,7 @@ Copyright (c) 2021 Author Name
 
 Read the LICENSE file, find the copyright line, and update:
 
-- `Copyright (c) 2021` → `Copyright (c) 2021-2026`
+- `Copyright (c) 2021` → `Copyright (c) 2026`
 - `Copyright (c) 2021-2024` → `Copyright (c) 2021-2026`
 
 ### 7. Handle file headers with SPDX or structured copyright
@@ -166,7 +164,7 @@ Some projects use SPDX headers:
 
 Update the year in `SPDX-FileCopyrightText` lines using the same rules:
 
-- `2023` → `2023-2026`
+- `2023` → `2026`
 - `2021-2024` → `2021-2026`
 
 ### 8. Review all changes
@@ -193,17 +191,11 @@ Then manually edit only the copyright line.
 
 ```bash
 git add -A
-git commit -m "chore: update copyright years to 2026
-
-Updated stale copyright year notices across the codebase.
-Preserved original start years; updated end years to 2026.
-No functional changes."
+git commit -m "chore: update copyright years to 2026"
 ```
 
 ## Rules and guardrails
 
-- **Preserve the original start year** — always. `Copyright 2018 Acme Corp` becomes `Copyright 2018-2026 Acme Corp`, never `Copyright 2026 Acme Corp`
-- Do NOT change years that appear in contexts other than copyright notices: version numbers (`v2024.1`), dates in comments (`# Added 2023-05`), date literals in code (`"2024-01-01"`), or changelog entries
 - When in doubt about whether a year is part of a copyright notice or something else, read the surrounding context carefully before editing
 - Do not add copyright headers to files that have none — that is a policy decision for the project maintainers, not an automated task
 - If a file uses a different copyright year intentionally (e.g. a vendored file with a third-party copyright), leave it unchanged

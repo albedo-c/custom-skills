@@ -22,7 +22,7 @@ Use this skill when you want to sweep the codebase for spelling mistakes in:
 
 - Comments and docstrings
 - String literals and error messages
-- Documentation files (`.md`, `.rst`, `.txt`)
+- Documentation files (`.md`, `.mdx`, `.rst`, `.txt`)
 - Variable names and identifiers that contain English words
 
 ## Step-by-step workflow
@@ -62,8 +62,6 @@ For each suggestion, verify:
 - Is it actually a misspelling? (not a technical abbreviation, acronym, or intentional term)
 - Is the suggested correction correct in context?
 
-If a word is a legitimate technical term that codespell flags incorrectly, note it for the `.codespellrc` ignore list.
-
 ### 4. Create a new git branch from master
 
 ```bash
@@ -95,17 +93,15 @@ For each spelling suggestion from codespell:
    - Use the Edit tool to replace only the misspelled word
    - Do NOT use `--write-changes` — apply fixes one by one using file editing
 
-4. **Handle false positives**:
-   - If a word is legitimate but codespell flags it, add it to `.codespellrc` later
-   - Skip fixing words that are actually variable names, function names, or identifiers
-
 Example workflow for each file:
+
 ```bash
 # Run codespell to see suggestions (output shows file:line:misspelling -> suggestion)
 codespell --quiet-level 3 --skip="...,*.svg,*.png" .
 ```
 
 Then for each suggestion, read the file, locate the line, and edit:
+
 - Old: `"This fuinction processes data"`
 - New: `"This function processes data"`
 
@@ -115,36 +111,19 @@ Then for each suggestion, read the file, locate the line, and edit:
 git diff
 ```
 
-Carefully inspect each change. If any fix looks wrong (corrected a technical term, variable name, etc.):
-
-- Revert that specific change
+Carefully inspect each change. If any fix looks wrong (corrected a technical term, variable name, etc.).
+Revert that specific change
 
 ### 7. Stage and commit
 
 ```bash
 git add -A
-git commit -m "fix: correct spelling errors detected by codespell
-
-Reviewed each suggestion and applied fixes manually.
-No logic or functional changes — comments, strings, and docs only."
-
-### 8. Create or update .codespellrc (if needed)
-
-If you encountered false positives (legitimate words codespell flagged incorrectly):
-
-```ini
-[codespell]
-skip = .git,*.lock,*.min.js,node_modules,__pycache__,.venv,venv,dist,build
-quiet-level = 3
-ignore-words-list = sometechterm,anotheracronym
+git commit -m "fix: typo/spelling correction/whatever is the most appropriate commit message"
 ```
-
-Add any legitimate technical terms to `ignore-words-list`. Commit this file alongside the spelling fixes.
 
 ## Rules and guardrails
 
-- **Never** change variable names, function names, class names, or any identifier that appears in code logic — only fix human-readable prose (comments, docstrings, strings intended for display, documentation)
-- If a word appears in both code identifiers AND comments (e.g. a typo that became a variable name), skip fixing it in comments too — it would cause confusion
-- Always commit `.codespellrc` alongside the fixes so false positives are recorded for future runs
+- **Avoid** changing variable names, function names, class names, or any identifier that appears in code logic — only fix human-readable prose (comments, docstrings, strings intended for display, documentation), change the variable name only if it is a typo and make sure those changes are reflected in all the places where the variable is used.
 - Do not mix spelling fixes with other changes in the same commit
 - If more than 10 files are changed, split into multiple commits by file type (docs first, then source)
+- Do not mention you used codespell anywhere

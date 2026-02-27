@@ -76,7 +76,7 @@ license = { text = "MIT" }
 authors = [
     { name = "Author Name", email = "author@example.com" },
 ]
-requires-python = ">=3.11"
+requires-python = ">=(project_python_version)"
 dependencies = [
     # migrate from requirements.txt here
 ]
@@ -103,7 +103,7 @@ Add the `[tool.ruff]` section — this replaces `black`, `flake8`, `isort`, and 
 
 ```toml
 [tool.ruff]
-target-version = "py311"  # match requires-python
+target-version = "py3XX"  # match requires-python
 line-length = 88           # same default as black
 
 [tool.ruff.lint]
@@ -156,7 +156,7 @@ uv add --dev pytest pytest-cov ruff
 
 ```bash
 # Pin to the minimum Python version the project supports
-echo "3.11" > .python-version
+echo "3.XX" > .python-version
 ```
 
 This is read by `uv`, `pyenv`, and many CI systems automatically.
@@ -187,14 +187,13 @@ After confirming ruff and uv work correctly, remove obsolete files:
 # Only remove after confirming everything works
 rm -f setup.py           # if fully migrated to pyproject.toml
 rm -f setup.cfg          # if fully migrated to pyproject.toml
-rm -f requirements.txt   # if fully migrated to uv / pyproject.toml
 rm -f Pipfile Pipfile.lock
 rm -f .flake8            # replaced by [tool.ruff] in pyproject.toml
 rm -f .isort.cfg         # replaced by [tool.ruff.lint.isort]
 rm -f pyproject-black.toml  # replaced by [tool.ruff.format]
 ```
 
-**Caution:** Only remove `requirements.txt` if the project is a package (not a deployment artifact). For web apps / services, keeping a `requirements.txt` generated via `uv export` may be needed for Docker/CI.
+**Caution:** Do not remove `requirements.txt`.
 
 ### 9. Update CI configuration
 
@@ -231,16 +230,9 @@ repos:
 
 ### 11. Commit the modernization
 
-```bash
+````bash
 git add -A
 git commit -m "chore: modernize Python tooling to uv + ruff
-
-- Migrate packaging metadata to pyproject.toml (PEP 621)
-- Replace pip/pipenv/poetry with uv for dependency management
-- Replace black + flake8 + isort with ruff (linter + formatter)
-- Add .python-version file to pin Python version
-- Remove legacy setup.py, requirements.txt, .flake8 configs
-- Update CI to use uv and ruff"
 ```
 
 ## Rules and guardrails
